@@ -1,6 +1,4 @@
 <?php
-// app/Http/Controllers/Api/ProfileController.php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -21,19 +19,25 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
-            'password' => 'sometimes|required|min:6|confirmed',
-            'avatar_url' => 'nullable|url',
+            'name'         => 'nullable|string|max:255',
+            'avatar_url'   => 'nullable|url',
+            'phone_number' => 'nullable|string|max:20',
+            'whatsapp'     => 'nullable|string|max:20',
+            'gender'       => 'nullable|in:male,female,other',
+            'birth_date'   => 'nullable|date',
+            'university'   => 'nullable|string|max:255',
+            'faculty'      => 'nullable|string|max:255',
+            'major'        => 'nullable|string|max:255',
+            'hobby'        => 'nullable|string|max:255',
         ]);
 
-        $data = $request->only(['name', 'email', 'avatar_url']);
+        $data = $request->only([
+            'name', 'avatar_url', 'phone_number', 'whatsapp',
+            'gender', 'birth_date', 'university', 'faculty', 'major', 'hobby',
+        ]);
 
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
-        }
 
-        $user->update($data);
+        $user->update(array_filter($data));
 
         return response()->json([
             'message' => 'Profil berhasil diperbarui',

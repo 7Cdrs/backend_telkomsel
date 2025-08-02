@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Laravel\Sanctum\HasApiTokens;
@@ -15,9 +14,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phone',
-        'role',
+        'phone_number',
+        'whatsapp',
+        'gender',
+        'birth_date',
+        'university',
+        'faculty',
+        'major',
+        'hobby',
         'avatar_url',
+        'role',
     ];
 
     protected $hidden = [
